@@ -1,0 +1,11 @@
+C:\FoodApp\FoodApp.Service\bin\Debug\net8.0\FoodApp.Service.deps.json
+C:\FoodApp\FoodApp.Service\bin\Debug\net8.0\FoodApp.Service.dll
+C:\FoodApp\FoodApp.Service\bin\Debug\net8.0\FoodApp.Service.pdb
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.AssemblyInfoInputs.cache
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.AssemblyInfo.cs
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.csproj.CoreCompileInputs.cache
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.dll
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\refint\FoodApp.Service.dll
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\FoodApp.Service.pdb
+C:\FoodApp\FoodApp.Service\obj\Debug\net8.0\ref\FoodApp.Service.dll
