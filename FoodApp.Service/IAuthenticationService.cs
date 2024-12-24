@@ -1,4 +1,5 @@
-﻿using FoodApp.Api.ViewModle;
+﻿using FoodApp.Api.ViewModle.authVIewModel;
+using Microsoft.Identity.Client;
 
 namespace FoodApp.Service
 {
@@ -6,5 +7,7 @@ namespace FoodApp.Service
     {
          Task<ResponsiveView<AuthModel>> RegisterAsync(RegistrationViewModel registrationView); 
          Task<ResponsiveView<AuthModel>> loginAsync( LoginView login );
-    }
+        Task<ResponsiveView<IEnumerable<UserViewModel>>> GetAllUser(); 
+     
+     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FoodApp.Api.ViewModle
+﻿namespace FoodApp.Api.ViewModle.authVIewModel
 {
     public class JWT
     {

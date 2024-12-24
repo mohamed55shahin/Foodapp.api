@@ -1,9 +1,11 @@
 ﻿using FoodApp.Api.FoodApp.Core.Enums;
-using FoodApp.Api.ViewModle;
+using FoodApp.Api.ViewModle.authVIewModel;
 using FoodApp.Core.Entities;
+using FoodApp.Core.Enums;
 using FoodApp.Service;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,13 +37,16 @@ namespace FoodApp.Api.FoodApp.Service
             if (await userManager.FindByNameAsync(registrationView.Username) is not null)
                 return new FailerResView<AuthModel>(Errorcode.userexist);
 
-            var user = new ApplicationUser
+            // default  role is user 
+            var rolee = Role.User; 
+
+            if(!string.IsNullOrEmpty(registrationView.SecretKeyForAdmin) && registrationView.SecretKeyForAdmin == "117004")
             {
-                 UserName = registrationView.Username,
-                Email = registrationView.Email,
-                Fname = registrationView.FirstName,
-                Lname = registrationView.LastName,
-            };
+                rolee = Role.Admin; 
+            }
+          
+           var user = registrationView.MapTo<ApplicationUser>();  
+            user.roles = rolee;
             var result = await userManager.CreateAsync(user, registrationView.Password);
 
             if (!result.Succeeded)
@@ -55,44 +60,41 @@ namespace FoodApp.Api.FoodApp.Service
                 }
                 return new FailerResView<AuthModel>(Errorcode.registerfaild, error.ToString());
             }
-            await userManager.AddToRoleAsync(user, "User");
 
-            var jwtSecurityToken = await CreateJwtToken(user);
+            var userRole = user.roles; 
+
+
+            var jwtSecurityToken = await CreateJwtToken(user , userRole );
 
             return new SuccessResView<AuthModel>(new AuthModel
                   {
                 Email = user.Email,
                 ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
-                Roles = new List<string> { "User" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 Username = user.UserName
-                }); 
+                },"registration sucess"); 
         }
 
-        private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
+        private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user, Role role )
         {
             var userClaims = await userManager.GetClaimsAsync(user);
-            var roles = await userManager.GetRolesAsync(user);
             var roleClaims = new List<Claim>();
-
-            foreach (var role in roles)
-                roleClaims.Add(new Claim("roles", role));
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid", user.Id)
+                 new Claim(ClaimTypes.Role ,((int)role).ToString()) ,
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             }
-            .Union(userClaims)
-            .Union(roleClaims);
+            .Union(userClaims);
+             
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-            var jwtSecurityToken = new JwtSecurityToken(
+            var jwtSecurityToken = new JwtSecurityToken (
                 issuer: _jwt.Issuer,
                 audience: _jwt.Audience,
                 claims: claims,
@@ -113,16 +115,27 @@ namespace FoodApp.Api.FoodApp.Service
                 return new FailerResView<AuthModel>(Errorcode.loginfaild, "password or eamil in correct");  
             }
 
-            var jwtSecurityToken = await CreateJwtToken(user);
-            var rolesList = await userManager.GetRolesAsync(user);
+            var jwtSecurityToken = await CreateJwtToken(user , user.roles);
+         
 
             authModel.IsAuthenticated = true;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.Email = user.Email;
             authModel.Username = user.UserName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
-            authModel.Roles = rolesList.ToList();
             return new SuccessResView<AuthModel>(authModel); 
+        }
+
+        public async Task<ResponsiveView<IEnumerable<UserViewModel>>> GetAllUser()
+        {
+          IQueryable<ApplicationUser> users =(IQueryable<ApplicationUser>) await userManager.Users.ToListAsync();
+
+          if(users.Count()==0) return new FailerResView<IEnumerable<UserViewModel>>
+                    (Errorcode.usersnotExits , "no user in the system");
+
+            var usersview = users.ProjectTo<UserViewModel>();
+
+            return new SuccessResView<IEnumerable<UserViewModel>>(usersview, "list of all users in the systenm ");
         }
     }
 }

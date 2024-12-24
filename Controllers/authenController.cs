@@ -1,8 +1,9 @@
-﻿using FoodApp.Api.ViewModle;
+﻿using FoodApp.Api.ViewModle.authVIewModel;
 using FoodApp.Service;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.Xml;
 
 namespace FoodApp.Api.Controllers
 {
@@ -28,8 +29,7 @@ namespace FoodApp.Api.Controllers
 
             if (!result.IsSuccess)
                 return BadRequest(result.Massage);
-
-            return Ok(result);
+            return Ok(new { massage = result.Massage, token = result.data.Token , expireson = result.data.ExpiresOn });
         }
 
         [HttpPost("login")]
@@ -43,7 +43,7 @@ namespace FoodApp.Api.Controllers
             if (!result.IsSuccess)
                 return BadRequest(result.Massage);
 
-            return Ok(result);
+            return Ok(new  {token = result.data.Token , expiresdate = result.data.ExpiresOn});
         }
 
 
