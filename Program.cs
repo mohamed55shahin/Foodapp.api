@@ -7,10 +7,12 @@ using Autofac.Core;
 using FoodApp.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using FoodApp.Api.ViewModle;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FoodApp.Api.ViewModle.authVIewModel;
+using FoodApp.Api.FoodApp.Service;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,7 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlServer(builder.C
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(container =>
@@ -33,6 +36,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
 
 var app = builder.Build();
 
+AutomapperService.mapper = app.Services.GetService<IMapper>(); 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -41,7 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

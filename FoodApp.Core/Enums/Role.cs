@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace FoodApp.Core.Enums
 {
     public enum Role
-    {
-        None = 0,
-        User = 1,
-        Admin = 2
+    { 
+        User = 0,
+        Admin = 1
     }
 }

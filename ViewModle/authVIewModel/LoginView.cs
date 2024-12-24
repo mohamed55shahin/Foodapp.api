@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FoodApp.Api.ViewModle
+namespace FoodApp.Api.ViewModle.authVIewModel
 {
     public class LoginView
     {

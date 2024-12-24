@@ -20,10 +20,7 @@ namespace FoodApp.Api.Data.Repository
             _dbSet = _context.Set<Entity>();
         }
 
-        public void Add(Entity entity)
-        {
-            _dbSet.Add(entity);
-        }
+        public void Add(Entity entity)=> _dbSet.Add(entity);
 
         public void SaveInclude(Entity entity, params string[] properties)
         {
@@ -92,35 +89,14 @@ namespace FoodApp.Api.Data.Repository
             SaveInclude(entity, nameof(BaseEntity.Deleted));
         }
 
-        public void HardDelete(Entity entity)
-        {
-            _dbSet.Remove(entity);
-        }
-
-
-        public IQueryable<Entity> Get(Expression<Func<Entity, bool>> predicate)
-        {
-            return GetAll().Where(predicate);
-        }
-
-        public IQueryable<Entity> GetAll()
-        {
-            return _dbSet.Where(x => !x.Deleted);
-        }
-
-        public IQueryable<Entity> GetAllWithDeleted()
-        {
-            return _dbSet;
-        }
-
-        public Entity GetByID(int id)
-        {
-            return Get(x => x.ID == id).FirstOrDefault();
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
+        public void HardDelete(Entity entity)=>_dbSet.Remove(entity);
+        public IQueryable<Entity> Get(Expression<Func<Entity, bool>> predicate)=> GetAll().Where(predicate);
+        public bool Any(Expression<Func<Entity, bool>> expression) => _dbSet.Any(expression);
+        public bool ExistEntity(int id) => _dbSet.Any(e => e.ID == id); 
+        public IQueryable<Entity> GetAll()=> _dbSet.Where(x => !x.Deleted);
+        public IQueryable<Entity> GetAllWithDeleted()=> _dbSet;
+        public Entity GetByID(int id)=> Get(x => x.ID == id).FirstOrDefault();
+        public void SaveChanges()=>  _context.SaveChanges();
+        
     }
 }

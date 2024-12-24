@@ -1,10 +1,10 @@
 ﻿using FoodApp.Api.FoodApp.Core.Enums;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace FoodApp.Api.ViewModle
+namespace FoodApp.Api.ViewModle.authVIewModel
 {
     public class ResponsiveView<T>
-        {
+    {
         public T data { get; set; }
 
         public bool IsSuccess { get; set; }

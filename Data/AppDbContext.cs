@@ -1,4 +1,5 @@
-﻿using FoodApp.Core.Entities;
+﻿using FoodApp.Api.FoodApp.Core.Entities;
+using FoodApp.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +21,9 @@ namespace FoodApp.Api.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<RecipeTag> RecipeTags { get; set; }
+
+        public DbSet<Item> items { get; set; }  
+        public DbSet<RoleFeature> RoleFeature { get; set; }
 
 
     }

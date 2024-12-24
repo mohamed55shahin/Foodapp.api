@@ -14,6 +14,6 @@ namespace FoodApp.Core.Entities
 
         public string Lname { get; set; }
         
-
+        public Role roles { get; set; } 
     }
 }

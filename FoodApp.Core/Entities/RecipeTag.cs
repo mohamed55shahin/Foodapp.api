@@ -8,7 +8,6 @@ namespace FoodApp.Core.Entities
 {
     public class RecipeTag:BaseEntity
     {
-
         public int RecipeId { get; set; }
         public Recipe Recipes { get; set; }
         public int TagId { get; set; }
