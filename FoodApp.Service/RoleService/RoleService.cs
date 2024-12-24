@@ -25,10 +25,6 @@ namespace FoodApp.Api.FoodApp.Service.RoleService
              _roleFeatureRepository.Add(RoleFeature);   
             _roleFeatureRepository.SaveChanges();
             return new SuccessResView<bool>(true, "add succssufly");
-                  
-
-            
-
         }
 
       

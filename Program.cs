@@ -34,6 +34,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
     container.RegisterModule(new autofac());
 });
 
+
 var app = builder.Build();
 
 AutomapperService.mapper = app.Services.GetService<IMapper>(); 
