@@ -14,10 +14,6 @@ namespace FoodApp.Api.ViewModle.Profiles
             CreateMap<ApplicationUser, UserViewModel>().
             ForMember((dst => dst.fullname), opt => opt.
             MapFrom(user =>$"{user.Fname} {user.Lname}"));
-                
-
-         
-        
          }    
 
     }

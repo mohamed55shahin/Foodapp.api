@@ -1,6 +1,10 @@
-﻿using FoodApp.Api.FoodApp.Service.RecipeService;
+﻿using AutoMapper.Features;
+using FoodApp.Api.FoodApp.Core.Enums;
+using FoodApp.Api.FoodApp.Service.RecipeService;
+using FoodApp.Api.Helper;
 using FoodApp.Api.ViewModle.authVIewModel;
 using FoodApp.Api.ViewModle.RecpieViewModle;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +14,9 @@ namespace FoodApp.Api.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
-        private readonly RecipeService _recipeService;
+        private readonly IRecpieService _recipeService;
 
-        public RecipeController(RecipeService recipeService)
+        public RecipeController(IRecpieService recipeService)
         {
             _recipeService = recipeService;
         }
@@ -39,7 +43,8 @@ namespace FoodApp.Api.Controllers
         }
 
         [HttpGet("all")]
-
+       
+        [TypeFilter(typeof(CoustemAurhorizeFilter), Arguments = new object[] { features.GetallRecipe})]
         public IActionResult GetAllRecipes()
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);  
@@ -51,6 +56,8 @@ namespace FoodApp.Api.Controllers
         }
 
         [HttpGet("all-admin")]
+        [Authorize]
+        [TypeFilter(typeof(CoustemAurhorizeFilter), Arguments = new object[] {features.GetAllForAdmin})]
         public IActionResult GetAllRecipesForAdmin()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

@@ -73,7 +73,7 @@ namespace FoodApp.Api.FoodApp.Service.RecipeService
 
             if (exists is null) return new FailerResView <RecpieDetailsViewModel>(Errorcode.unfoundData," thereis no recipr by this id");
 
-            var quary  = exists.MapTo<RecpieDetailsViewModel>();
+            var quary  = exists.MapToFristOrDeafult<RecpieDetailsViewModel>();
 
             return new SuccessResView<RecpieDetailsViewModel>(quary, "this the data about this recpie");
 

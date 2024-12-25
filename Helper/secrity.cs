@@ -13,11 +13,9 @@ namespace FoodApp.Api.Helper
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = false;
+   
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -26,8 +24,8 @@ namespace FoodApp.Api.Helper
                     ValidateLifetime = true,
                     ValidIssuer = config["JWT:Issuer"],
                     ValidAudience = config["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"])),
-                    ClockSkew = TimeSpan.Zero
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]))
+                  
                 };
             });
             return services;

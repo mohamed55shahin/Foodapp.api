@@ -43,7 +43,7 @@ namespace FoodApp.Api.Controllers
             if (!result.IsSuccess)
                 return BadRequest(result.Massage);
 
-            return Ok(new  {token = result.data.Token , expiresdate = result.data.ExpiresOn});
+            return Ok(new  {token = result.data.Token , role = result.data.Roles ,  expiresdate = result.data.ExpiresOn});
         }
 
 

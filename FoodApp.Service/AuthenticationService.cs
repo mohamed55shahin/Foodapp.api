@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -71,6 +72,7 @@ namespace FoodApp.Api.FoodApp.Service
                 Email = user.Email,
                 ExpiresOn = jwtSecurityToken.ValidTo,
                 IsAuthenticated = true,
+                Roles = ((int)userRole).ToString(), 
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 Username = user.UserName
                 },"registration sucess"); 
@@ -85,7 +87,7 @@ namespace FoodApp.Api.FoodApp.Service
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                 new Claim(ClaimTypes.Role ,((int)role).ToString()) ,
+                 new Claim("roletype" ,((int)role).ToString()) ,
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             }
             .Union(userClaims);
@@ -121,6 +123,7 @@ namespace FoodApp.Api.FoodApp.Service
             authModel.IsAuthenticated = true;
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             authModel.Email = user.Email;
+            //authModel.Roles = ((int)user.roles).ToString();
             authModel.Username = user.UserName;
             authModel.ExpiresOn = jwtSecurityToken.ValidTo;
             return new SuccessResView<AuthModel>(authModel); 

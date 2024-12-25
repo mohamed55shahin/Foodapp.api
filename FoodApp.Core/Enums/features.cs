@@ -2,5 +2,10 @@
 {
     public enum features
     {
+        GetallRecipe=0,
+        GetAllForAdmin,
+        updateRecipe,
+        detils,
+        deleteRecipe
     }
 }
