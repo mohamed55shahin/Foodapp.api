@@ -13,8 +13,8 @@ namespace FoodApp.Api.Helper
 
         features features; 
 
-        public CoustemAurhorizeFilter( IRoleService roleService, features features)
-        {
+         public CoustemAurhorizeFilter( IRoleService roleService, features features)
+         {
             this.roleService = roleService;
             this.features = features;
         }
@@ -23,7 +23,7 @@ namespace FoodApp.Api.Helper
         {
             var calims = context.HttpContext.User;
 
-            var RoleID = calims.FindFirst(ClaimTypes.Role);
+            var RoleID = calims.FindFirst("roletype");
 
             if (RoleID == null || string.IsNullOrEmpty(RoleID.Value)) {
 
@@ -34,7 +34,7 @@ namespace FoodApp.Api.Helper
 
             var check = roleService.HasAccess(role , features );
 
-            if (check != null) throw new UnauthorizedAccessException();
+            if (check == null) throw new UnauthorizedAccessException();
 
 
             base.OnActionExecuted(context);

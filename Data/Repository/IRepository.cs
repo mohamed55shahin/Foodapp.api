@@ -20,6 +20,9 @@ namespace FoodApp.Api.Data.Repository
         IQueryable<Entity> Get(Expression<Func<Entity, bool>> predicate);
         Entity GetByID(int id);
         void SaveChanges();
+        bool ExistEntity(int id);
+        public bool Any(Expression<Func<Entity, bool>> ex);
+
 
 
     }

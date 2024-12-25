@@ -25,10 +25,6 @@ namespace FoodApp.Api.FoodApp.Service.RoleService
              _roleFeatureRepository.Add(RoleFeature);   
             _roleFeatureRepository.SaveChanges();
             return new SuccessResView<bool>(true, "add succssufly");
-                  
-
-            
-
         }
 
       
@@ -48,6 +44,7 @@ namespace FoodApp.Api.FoodApp.Service.RoleService
         public ResponsiveView<bool> HasAccess(Role role, features features)
         {
                var check = _roleFeatureRepository.Get(c => !c.Deleted && c.role == role && c.feature == features).Any();
+          //  if (!check) return new FailerResView<bool>(Errorcode.unfoundData, "this role exits");
             return new SuccessResView<bool>(check, "this feature to this specific role ");
         }
     }

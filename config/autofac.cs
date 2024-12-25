@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using AutoMapper;
 using FoodApp.Api.Data.Repository;
+using FoodApp.Api.ViewModle.Profiles;
 
 namespace FoodApp.Api.config
 {
@@ -15,6 +17,7 @@ namespace FoodApp.Api.config
                   Where(p => p.Name.EndsWith("Service")).
                   AsImplementedInterfaces().
                   InstancePerLifetimeScope();
+
 
         }
     }

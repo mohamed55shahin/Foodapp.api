@@ -9,6 +9,11 @@
         loginfaild,
 
         emptyData,
-        unfoundData 
+        unfoundData, 
+        alreadyDeleted,
+
+        recipeExist
+         
+
     }
 }
